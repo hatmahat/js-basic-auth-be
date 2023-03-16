@@ -74,3 +74,6 @@
 20230315	17:26:21	0627839d-dbcf-46db-a8ad-90427e307adf	GET	undefined	/employees
 20230315	17:28:19	650a733d-56c5-4595-9ecf-a59ce4be0375	POST	undefined	/employees
 20230315	17:30:15	ddd2691c-6283-42f4-97df-5578f373e91e	GET	undefined	/employees/1
+20230316	10:33:53	ba318b42-b837-471b-a29c-a3e6a6e5f5cc	POST	undefined	/employees
+20230316	10:34:08	691aeda2-9089-4cc1-bf09-d51c84dfd755	POST	undefined	/employees
+20230316	10:34:33	b30613ab-bfba-4b5f-b496-dc7678dd0e9b	POST	undefined	/employees

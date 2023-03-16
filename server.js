@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const PORT = process.env.PORT || 3500;
@@ -10,23 +11,6 @@ const PORT = process.env.PORT || 3500;
 app.use(logger);
 
 // Cross Origin Resource Sharing
-const whitelist = [
-    // list ngga kena CORS
-    "https://www.google.com",
-    "htt://172.0.0.1:5500",
-    "http://localhost:3500",
-];
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (whitelist.indexOf(origin) !== -1 || !origin) {
-            // !origin -> undefined
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowerd by CORS"));
-        }
-    },
-    optionsSuccessStatus: 200,
-};
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded data
@@ -39,10 +23,8 @@ app.use(express.json());
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/public")));
-app.use("/subdir", express.static(path.join(__dirname, "/public")));
 
 app.use("/", require("./routes/root"));
-app.use("/subdir", require("./routes/subdir"));
 app.use("/employees", require("./routes/api/employees"));
 
 app.all("*", (req, res) => {
