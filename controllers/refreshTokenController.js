@@ -5,7 +5,6 @@ const usersDB = {
     },
 };
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 const handleRefreshToken = (req, res) => {
     let cookies = req.cookies; // belum ada di cookies
