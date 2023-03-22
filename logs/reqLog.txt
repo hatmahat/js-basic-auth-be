@@ -272,3 +272,5 @@
 20230319	13:20:42	b2be60f5-9237-4f94-9d25-d412f2c2444f	GET	undefined	/refresh
 20230319	13:20:46	85c01da9-753b-43b6-9ca7-0c64f45761d9	POST	undefined	/auth
 20230319	13:20:48	e3a3523f-e766-4f07-8eea-075235940a2b	GET	undefined	/refresh
+20230322	18:44:18	93b4225b-5e48-4044-8145-354fb9a723c8	POST	undefined	/register
+20230322	18:45:08	ef2bee76-2365-4c5b-b5d7-531edde183a7	POST	undefined	/register
