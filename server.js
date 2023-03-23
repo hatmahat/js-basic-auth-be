@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // middleware for cookies
-app.unsubscribe(cookieParser());
+app.use(cookieParser());
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/public")));

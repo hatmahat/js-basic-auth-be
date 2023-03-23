@@ -1,14 +1,6 @@
-const usersDB = {
-    users: require("../model/users.json"),
-    setUsers: function (data) {
-        this.users = data;
-    },
-};
+const User = require("../model/User");
 const bcrypt = require("bcrypt");
-
 const jwt = require("jsonwebtoken");
-const fsPromises = require("fs").promises;
-const path = require("path");
 
 const hadleLogin = async (req, res) => {
     const { user, pwd } = req.body;
@@ -16,7 +8,8 @@ const hadleLogin = async (req, res) => {
         return res
             .status(400)
             .json({ message: `Username and password are required.` });
-    const foundUser = usersDB.users.find((person) => person.username == user);
+
+    const foundUser = await User.findOne({ username: user }).exec();
     if (!foundUser) return res.sendStatus(401); // Unauthorized
     // evaluate password
     const match = await bcrypt.compare(pwd, foundUser.password);
@@ -31,7 +24,7 @@ const hadleLogin = async (req, res) => {
                 },
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "120s" }
+            { expiresIn: "480s" }
         );
         const refreshToken = jwt.sign(
             { username: foundUser.username },
@@ -40,22 +33,15 @@ const hadleLogin = async (req, res) => {
         );
 
         // Saving refreshToken with current user
-        const otherUsers = usersDB.users.filter(
-            (person) => person.username !== foundUser.username
-        );
-        const currentUser = { ...foundUser, refreshToken };
-        usersDB.setUsers([...otherUsers, currentUser]);
-        await fsPromises.writeFile(
-            path.join(__dirname, "..", "model", "users.json"),
-            JSON.stringify(usersDB.users)
-        );
+        foundUser.refreshToken = refreshToken;
+        const result = await foundUser.save();
 
         res.cookie("jwt", refreshToken, {
-            httpOnly: false, // not available to javascript, and much more sercure than saving in cookie or localstorage
+            httpOnly: true, // not available to javascript, and much more sercure than saving in cookie or localstorage
             sameSite: "None",
-            secure: true,
+            secure: false,
             maxAge: 24 * 60 * 60 * 1000,
-        });
+        }); // secure: true,
         res.json({ accessToken });
     } else {
         res.sendStatus(401);
