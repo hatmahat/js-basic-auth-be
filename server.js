@@ -49,6 +49,7 @@ app.use("/logout", require("./routes/logout"));
 
 app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));
+app.use("/users", require("./routes/api/users"));
 
 app.all("*", (req, res) => {
     // set status to 404 because by default sends 200
@@ -63,6 +64,8 @@ app.all("*", (req, res) => {
 });
 
 app.use(errorHandler);
+
+app.use(logger);
 
 mongoose.connection.once("open", () => {
     console.log("Connected to MongoDB");

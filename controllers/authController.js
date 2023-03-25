@@ -24,12 +24,12 @@ const hadleLogin = async (req, res) => {
                 },
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "480s" }
+            { expiresIn: "20s" }
         );
         const refreshToken = jwt.sign(
             { username: foundUser.username },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "30s" }
         );
 
         // Saving refreshToken with current user
@@ -39,10 +39,11 @@ const hadleLogin = async (req, res) => {
         res.cookie("jwt", refreshToken, {
             httpOnly: true, // not available to javascript, and much more sercure than saving in cookie or localstorage
             sameSite: "None",
-            secure: false,
+            secure: true,
             maxAge: 24 * 60 * 60 * 1000,
         }); // secure: true,
-        res.json({ accessToken });
+        console.log("ROLES", roles.filter(role =>  role != undefined));
+        res.json({ accessToken, roles });
     } else {
         res.sendStatus(401);
     }
