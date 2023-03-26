@@ -42,8 +42,8 @@ const hadleLogin = async (req, res) => {
             secure: true,
             maxAge: 24 * 60 * 60 * 1000,
         }); // secure: true,
-        console.log("ROLES", roles.filter(role =>  role != undefined));
-        res.json({ accessToken, roles });
+        // console.log("ROLES", roles.filter(role =>  role != undefined));
+        res.json({ accessToken });
     } else {
         res.sendStatus(401);
     }
