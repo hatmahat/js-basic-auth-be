@@ -24,6 +24,8 @@ const logEvents = async (message, logName) => {
 };
 
 const logger = (req, res, next) => {
+    //console.log("RESPOND", req);
+    // console.log("RESPOND STATUS CODE", res.statusCode);
     logEvents(`${req.method}\t${res.statusCode}\t${req.headers.origin}\t${req.url}`, "reqLog.txt");
     console.log(`${req.method} ${req.path}`);
     next();
